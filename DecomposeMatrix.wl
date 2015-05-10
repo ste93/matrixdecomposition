@@ -12,12 +12,11 @@ identity4 = {{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}};
 
 
 
-findMatrix = Function[{stack, lastMatrix, set, U, rec},
+findMatrix = Function[{stack, lastMatrix, set, U, rec, limit},
 	Module[{i},
 		If[lastMatrix == U, Return[stack];,
 			For[i=1,i<=Length[set],i++,
-				Print[lastMatrix.set[[i]]];
-				If[rec < Length[set]*(Length[set]-1),If[lastMatrix.set[[i]] != identity4,findMatrix[Append[stack,set[[i]]], lastMatrix.set[[i]], set, U, rec+1];]]
+				If[rec < limit,If[lastMatrix.set[[i]] != identity4,findMatrix[Append[stack,set[[i]]], lastMatrix.set[[i]], set, U, rec+1, limit];]]
 			]
 		]
 	]
@@ -39,14 +38,20 @@ decomposeMatrix = Function[U,
 				set = Append[set, sets[[i]]];
 			]
 		]
-		Print[set];
-		Print[stack];
-		ris = findMatrix[stack, lastMatrix, set, U, 0];
-		Return[ris];
+		i = 0;
+		While[Length[ris] == 0, ris = findMatrix[stack, lastMatrix, set, U, 0, i];i++]
+		Print["Matrices:"]; 
+		Print[ris];
 	] 
 ]
 
 decomposeMatrix[{{1,0,0,0},{0,1,0,0},{0,0,0,1},{0,0,1,0}}]
+
+
+
+
+
+
 
 
 
