@@ -40,49 +40,33 @@
 \usepackage{amsfonts}%
 \usepackage{amssymb}%
 \usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{braket}
+
+\captionsetup{labelformat=empty,textfont=sl}
+\lstset{
+    numbers=left,
+    tabsize=2,
+}
 %------------------------------------------------------------
 % Theorem like environments
 %
-\newtheorem{theorem}{Theorem}
-\theoremstyle{plain}
-\newtheorem{acknowledgement}{Acknowledgement}
-\newtheorem{algorithm}{Algorithm}
-\newtheorem{axiom}{Axiom}
-\newtheorem{case}{Case}
-\newtheorem{claim}{Claim}
-\newtheorem{conclusion}{Conclusion}
-\newtheorem{condition}{Condition}
-\newtheorem{conjecture}{Conjecture}
-\newtheorem{corollary}{Corollary}
-\newtheorem{criterion}{Criterion}
-\newtheorem{definition}{Definition}
-\newtheorem{example}{Example}
-\newtheorem{exercise}{Exercise}
-\newtheorem{lemma}{Lemma}
-\newtheorem{notation}{Notation}
-\newtheorem{problem}{Problem}
-\newtheorem{proposition}{Proposition}
-\newtheorem{remark}{Remark}
-\newtheorem{solution}{Solution}
-\newtheorem{summary}{Summary}
-\numberwithin{equation}{section}
+
 %--------------------------------------------------------
 \begin{document}
-\title[Decomposition of quantum gate into multiplication of gates taken from a given set]{Decomposition of quantum gate into multiplication of gates taken from a given set}
-\author{SEDRI}
-\address[A. One and A. Two]
-{Sabanci Universitesi}%
-\email[A. One]{sedri...}%
+\title[Decomposition of quantum gate]{Decomposition of quantum gate into multiplication of gates taken from a given set}
+\author{SEDRI OGUR}
+
 
 \author{STEFANO BERNAGOZZI}
-\curraddr[A.~Two]{Sabanci Universitesi}%
-\email[A.~Two]{stefano@sabanciuniv.edu}%
 
 \date{May 11, 2015}
 \subjclass{} %
 \keywords{}%
 \dedicatory{}
-
+\break
 \begin{abstract}
 
 
@@ -94,280 +78,92 @@ Decompose a quantum operation into a finite set of gates is extremely important 
 
 \section{Introduction}
 
-Quantum computation is very useful for finding a solution to problems that on classical computer are nowadays intractable and there are many researchers trying to make quantum computation works on their small laboratories. Therefore is very important to reproduce any gate even if you don't have it. there are many articles about the decomposition of quantum gates, but here we want to find a sequence of matrices from a given set for finding the solution, knowing that the matrix is composed by multiplying that matrices. This article is composed into ... sections, section number 2 gives , section number 3 explain how is made the algorithm and section number 4 gives some information about future work based on this article.
-
+Quantum computation is very useful for finding a solution to problems that on classical computer are nowadays intractable and there are many researchers trying to make quantum computation works on their small laboratories. Therefore is very important to reproduce any gate even if you don't have it. there are many articles about the decomposition of quantum gates, but here we want to find a sequence of matrices from a given set for finding the solution, knowing that the matrix is composed by multiplying that matrices. This article is composed into the following sections, section number two gives a brief explanation of quantum computation, section number three explain how is made the algorithm, section number four shows the results of the algorithm for Mathematica code and section number five gives some information about future work based on this article.
+\\
 \section{base results}
 
-In this section we're going to explain theorems and results that we've used for obtain the algorithm. For 
+It is well known that quantum mechanics is based on complex linear algebra, it means that all n-qubit quantum gates can be represented as $2^n$ by $2^n$ Hermitian matrices. We need those type of matrices because each quantum gate must be reversible and leave the qubits in a pure state (that means $\ket{\psi} = \alpha \ket{0} + \beta \ket{1} and |\alpha|^2 + |\beta|^2 = 1$). For more informations about quantum representation see Nielsen and Chuang book\cite{nielsen} or Kaye, Laflamme and Mosca book \cite{oxford}. 
+By this we obtain that a composition of two gates can be written as the multiplication of the matrices of that gates, so with one matrix we can represent multiple gates.\\ 
 
-\subsection{Subsection}
-Subsection text.
+\section{algorithm}
+Here is the explanation of the algorithm. In section 3.1 we're going to explain how the algorithm works, in section 3.2 there is an explanation of the complexity of the algorithm with a brief introduction of the iterative deepng search algorithm and in section 3.3 there is the pseudo-code of the algorithm.
+For the code of the algorithm in Wolfram Mathematica see https://github.com/ste93/matrixdecomposition. \\
+\subsection{How it works}
+The algorithm that we propose here begin with the function that controls the matrix from the set given and if there is an U that is of the form 2 by 2 then it will replaced by two 4 by 4 matrices formed as following:
+U1 = U X I, U2 I x U. After this we have two matrices, U1 that acts U on the first qubit and U2 that acts U on the second qubit.
+After it uses an Iterative Deepening Search where at each node of the tree the branch factor is proportional to the number of the elements of the final set with all 4 by 4 matrices.\\
 
-\subsubsection{Subsubsection}
-Subsubsection text.
-
-\paragraph{Paragraph}
-Paragraph text.
-
-\subparagraph{Subparagraph}Subparagraph text.\vspace{2mm}
-
-Select a part of the text then click on the button Emphasize (H!), or
-Bold (Fs), or Italic (Kt), or Slanted (Kt) to typeset \emph{Emphasize},
-\textbf{Bold}, \textit{Italics}, \textsl{Slanted} texts.
-
-You can also typeset \textrm{Roman}, \textsf{Sans Serif}, \textsc{Small Caps},
-and \texttt{Typewriter} texts.
-
-You can also apply the special, mathematics only commands $\mathbb{BLACKBOARD}$
-$\mathbb{BOLD}$, $\mathcal{CALLIGRAPHIC}$, and $\mathfrak{fraktur}$. Note that
-blackboard bold and calligraphic are correct only when applied to uppercase
-letters A through Z.
-
-You can apply the size tags -- Format menu, Font size submenu -- {\tiny tiny},
-{\scriptsize scriptsize}, {\footnotesize footnotesize}, {\small small},
-{\normalsize normalsize}, {\large large}, {\Large Large}, {\LARGE LARGE},
-{\huge huge} and {\Huge Huge}.
-
-You can use the \verb"\begin{quote} etc. \end{quote}" environment for typesetting
-short quotations. Select the text then click on Insert, Quotations, Short Quotations:
-
-\begin{quote}
-The buck stops here. \emph{Harry Truman}
-
-Ask not what your country can do for you; ask what you can do for your
-country. \emph{John F Kennedy}
-
-I am not a crook. \emph{Richard Nixon}
-
-I did not have sexual relations with that woman, Miss Lewinsky. \emph{Bill Clinton}
-\end{quote}
-
-The Quotation environment is used for quotations of more than one paragraph. Following
-is the beginning of \emph{The Jungle Books} by Rudyard Kipling. (You should select
-the text first then click on Insert, Quotations, Quotation):
-
-\begin{quotation}
-It was seven o'clock of a very warm evening in the Seeonee Hills when Father Wolf woke
-up from his day's rest, scratched himself, yawned  and spread out his paws one after
-the other to get rid of sleepy feeling in their tips. Mother Wolf lay with her big gray
-nose dropped across her four tumbling, squealing cubs, and the moon shone into the
-mouth of the cave where they all lived. ``\emph{Augrh}'' said Father Wolf, ``it is time
-to hunt again.'' And he was going to spring down hill when a little shadow with a bushy
-tail crossed the threshold and whined: ``Good luck go with you, O Chief of the Wolves;
-and good luck and strong white teeth go with the noble children, that they may never
-forget the hungry in this world.''
-
-It was the jackal---Tabaqui the Dish-licker---and the wolves of India despise Tabaqui
-because he runs about making mischief, and telling tales, and eating rags and pieces of
-leather from the village rubbish-heaps. But they are afraid of him too, because
-Tabaqui, more than any one else in the jungle, is apt to go mad, and then he forgets
-that he was afraid of anyone, and runs through the forest biting everything in his way.
-\end{quotation}
-
-Use the Verbatim environment if you want \LaTeX\ to preserve spacing, perhaps when
-including a fragment from a program such as:
-\begin{verbatim}
-#include <iostream>         // < > is used for standard libraries.
-void main(void)             // ''main'' method always called first.
-{
- cout << ''This is a message.'';
-                            // Send to output stream.
-}
-\end{verbatim}
-(After selecting the text click on Insert, Code Environments, Code.)
+\subsection{Complexity and IDS}
+In fact the complexity of the algorithm is $O(b^d)$ where b is the branching factor of the tree (the number of the elements in the set), while d is the number of matrices needed for the solution.
+The completeness of the algorithm is guaranteed because we know that the matrix is a multiplication of the matrices in the set so the algorithm will perform an iterative deepening search that is know that is complete (for references see ).
+Also the optimality of the solution is guaranteed because the iterative deepening search add at every level of the tree one matrix and explore all that level until it find a solution or reach the end of the level, so if the solution is find must be optimal.\\
 
 
-\subsection{Mathematics and Text}
+Here there is an example of how the iterative deepening search algorithm works\\\\
 
-It holds \cite{KarelRektorys} the following
-\begin{theorem}
-(The Currant minimax principle.) Let $T$ be completely continuous selfadjoint operator
-in a Hilbert space $H$. Let $n$ be an arbitrary integer and let $u_1,\ldots,u_{n-1}$ be
-an arbitrary system of $n-1$ linearly independent elements of $H$. Denote
-\begin{equation}
-\max_{\substack{v\in H, v\neq
-0\\(v,u_1)=0,\ldots,(v,u_n)=0}}\frac{(Tv,v)}{(v,v)}=m(u_1,\ldots, u_{n-1}) \label{eqn10}
-\end{equation}
-Then the $n$-th eigenvalue of $T$ is equal to the minimum of these maxima, when minimizing over all linearly independent systems $u_1,\ldots u_{n-1}$ in $H$,
-\begin{equation}
-\mu_n = \min_{\substack{u_1,\ldots, u_{n-1}\in H}} m(u_1,\ldots, u_{n-1}) \label{eqn20}
-\end{equation}
-\end{theorem}
-The above equations are automatically numbered as equation (\ref{eqn10}) and
-(\ref{eqn20}).
+\includegraphics{ids.jpg}
+\textit{Image taken from http://www.massey.ac.nz/~mjjohnso/notes/59302/l03.html
+}\\\\\\\\
+\subsection{Pseudo-code of the algorithm}
+Here is the pseudo code of the algorithm:
+\begin{lstlisting}
+def find_Matrix(set, originalMatrix, Stack, LastMatrix, depth, limit):
+	if LastMatrix == originalMatrix:
+		return Stack
+	else:
+		if depth < limit:
+			for mat in set:
+				if originalMatrix * mat != I4:
+					find_Matrix(set, originalMatrix, Stack + mat, LastMatrix * mat, depth + 1, limit)
+				
+				
+def matrixDecomposition(U,set):
+	for mat in set:
+		if size(mat) == 2x2:
+			set.remove(mat)
+			set.add(kronecker(I2,U))
+			set.add(kronecker(U,I2))
+	i = 0
+	do:
+		i++
+		ris = find_matrix(set, U, stack(), I4, 0, i)
+	while ris == {}
+	print ris
+	
+	
+\end{lstlisting}
 
-\subsection{List Environments}
-
-You can create numbered, bulleted, and description lists
-(Use the Itemization or Enumeration buttons, or click on the Insert menu
-then chose an item from the Enumeration submenu):
-
+Where:
 \begin{enumerate}
-\item List item 1
+\item stack() is an empty stack;
+\item kronecker(A,B) is the kronecker product between A and B
+\item I2 is the 2x2 identity matrix
+\item I4 is the 4x4 identity matrix
 
-\item List item 2
-
-\begin{enumerate}
-\item A list item under a list item.
-
-However, the typeset style for this level is different.
-
-\item Just another list item under a list item.
-
-\begin{enumerate}
-\item Third level list item under a list item.
-
-\begin{enumerate}
-\item Fourth and final level of list items allowed.
-\end{enumerate}
-\end{enumerate}
-\end{enumerate}
 \end{enumerate}
 
-\begin{itemize}
-\item Bullet item 1
+\section{Test results}
+After wrote down the pseudo-code and the Mathematica code we tested it with some example, 
 
-\item Bullet item 2
 
-\begin{itemize}
-\item Second level bullet item.
+\section{future work}
+We will now explain the future work based on this results. At first there is maybe an improvement of the efficiency in time and space of the algorithm, as well as the generalization for matrix not 4 by 4 and see if it's possible to find the reduction of all 4 by 4 quantum gates into elements of a given set without knowing if they are or not made by multiplying elements of the set (this can be an important result because can lead to universality of a certain set). For the universality of quantum gates see Schmassman presentation \cite{schmassman} or Deutsch, Barenco and Ekert paper \cite{DBA}.
+\\Another important work is to code the algorithm for quantum computers and see the complexity difference between them and how quantum computers affect the computation.
+\\Last work can be the analysis of the algorithm and see if it can be reduced to NP-complete problems and if it is NP-hard.
 
-\begin{itemize}
-\item Third level bullet item.
+\section{Conclusions}
 
-\begin{itemize}
-\item Fourth (and final) level bullet item.
-\end{itemize}
-\end{itemize}
-\end{itemize}
-\end{itemize}
-
-\begin{description}
-\item[Description List] Each description list item has a term followed by the
-description of that term. Double click the term box to enter the term, or to
-change it.
-
-\item[Bunyip] Mythical beast of Australian Aboriginal legends.
-\end{description}
-
-\subsection{Theorem-like Environments}
-
-The following theorem-like environments (in alphabetical order) are available
-in this style.
-
-\begin{acknowledgement}
-This is an acknowledgement
-\end{acknowledgement}
-
-\begin{algorithm}
-This is an algorithm
-\end{algorithm}
-
-\begin{axiom}
-This is an axiom
-\end{axiom}
-
-\begin{case}
-This is a case
-\end{case}
-
-\begin{claim}
-This is a claim
-\end{claim}
-
-\begin{conclusion}
-This is a conclusion
-\end{conclusion}
-
-\begin{condition}
-This is a condition
-\end{condition}
-
-\begin{conjecture}
-This is a conjecture
-\end{conjecture}
-
-\begin{corollary}
-This is a corollary
-\end{corollary}
-
-\begin{criterion}
-This is a criterion
-\end{criterion}
-
-\begin{definition}
-This is a definition
-\end{definition}
-
-\begin{example}
-This is an example
-\end{example}
-
-\begin{exercise}
-This is an exercise
-\end{exercise}
-
-\begin{lemma}
-This is a lemma
-\end{lemma}
-
-\begin{proof}
-This is the proof of the lemma.
-\end{proof}
-
-\begin{notation}
-This is notation
-\end{notation}
-
-\begin{problem}
-This is a problem
-\end{problem}
-
-\begin{proposition}
-This is a proposition
-\end{proposition}
-
-\begin{remark}
-This is a remark
-\end{remark}
-
-\begin{solution}
-This is a solution
-\end{solution}
-
-\begin{summary}
-This is a summary
-\end{summary}
-
-\begin{theorem}
-This is a theorem
-\end{theorem}
-
-\begin{proof}
-[Proof of the Main Theorem]This is the proof.
-\end{proof}
-
-This text is a sample for a short bibliography. You can cite a book by making use of
-the command \verb"\cite{KarelRektorys}": \cite{KarelRektorys}. Papers can be cited
-similarly: \cite{Bertoti97}. If you want multiple citations to appear in a single set
-of square brackets you must type all of the citation keys inside a single citation,
-separating each with a comma. Here is an example: \cite{Bertoti97, Szeidl2001,
-Carlson67}.
 
 \begin{thebibliography}{9}                                                                                                %
-\bibitem {KarelRektorys}Rektorys, K., \textit{Variational methods in Mathematics,
-Science and Engineering}, D. Reidel Publishing Company,
-Dordrecht-Hollanf/Boston-U.S.A., 2th edition, 1975
+\bibitem{scmassmann}http://qudev.ethz.ch/content/courses/QSIT07/presentations/Schmassmann.pdf.\\
 
-\bibitem {Bertoti97} \textsc{Bert\'{o}ti, E.}:\ \textit{On mixed variational formulation
-of linear elasticity using nonsymmetric stresses and displacements}, International
-Journal for Numerical Methods in Engineering., \textbf{42}, (1997), 561-578.
+\bibitem{DBA} \textsc{Deutsch, David, Adriano Barenco, and Artur Ekert.}:\ \textit{Universality in quantum computation.}, Proceedings of the Royal Society of London. Series A: Mathematical and Physical Sciences, \textbf{449.1937}, (1995): 669-677.\\
 
-\bibitem {Szeidl2001} \textsc{Szeidl, G.}:\ \textit{Boundary integral equations for
-plane problems in terms of stress functions of order one}, Journal of Computational and
-Applied Mechanics, \textbf{2}(2), (2001), 237-261.
+\bibitem {nielsen} \textsc{Nielsen, Michael A., and Isaac L. Chuang.}:\ \textit{Quantum computation and quantum information}, Cambridge university press, 2010.\\
 
-\bibitem {Carlson67}  \textsc{Carlson D. E.}:\ \textit{On G\"{u}nther's stress functions
-for couple stresses}, Quart. Appl. Math., \textbf{25}, (1967), 139-146.
+\bibitem {oxford}  \textsc{Kaye, Phillip, Raymond Laflamme, and Michele Mosca.}:\ \textit{An introduction to quantum computing}, Oxford University Press, 2007.
+
+\bibitem{git}https://github.com/ste93/matrixdecomposition.\\
+
 \end{thebibliography}
 \end{document}
